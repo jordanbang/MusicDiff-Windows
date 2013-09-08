@@ -23,12 +23,21 @@ namespace MusicDiff
             listView1.HeaderStyle = ColumnHeaderStyle.None;
 
             string dir = "C:\\Users\\Jordan\\Desktop\\MusicDiff-Test\\";
+            List<System.IO.FileInfo> files = new List<FileInfo>();
             List<string> dirs = new List<string>(Directory.EnumerateFiles(dir, "*.*", SearchOption.AllDirectories));
             foreach (var subDir in dirs)
             {
-                listView1.Items.Add(new ListViewItem(subDir.Replace(dir, "")));
+                FileInfo file = new FileInfo(subDir);
+                TagLib.File sameFile = TagLib.File.Create(subDir);
+
+                listView1.Items.Add(new ListViewItem("Title: " + sameFile.Tag.Title + "  -  Artist: " + sameFile.Tag.Performers[0]));
             }
             Console.WriteLine("{0} directories found.", dirs.Count);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
