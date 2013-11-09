@@ -9,6 +9,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace MusicDiff
 {
@@ -24,7 +25,6 @@ namespace MusicDiff
             listView1.HeaderStyle = ColumnHeaderStyle.None;
 
             string dir = "D:\\iTunes Music\\Music";
-            //dir = "C:\\Users\\Jordan\\Desktop\\MusicDiff-Test";
             List<System.IO.FileInfo> files = new List<FileInfo>();
             List<string> dirs = new List<string>(Directory.EnumerateFiles(dir, "*.*", SearchOption.AllDirectories));
             foreach (var subDir in dirs)
@@ -37,21 +37,14 @@ namespace MusicDiff
             }
             Console.WriteLine("\n{0} directories found.", dirs.Count);
 
-            if (!HttpListener.IsSupported)
-            {
-                Console.WriteLine("HttpListener is not supported");
-                return;
-            }
-
-            //HttpListener listener = new HttpListener();
-            //listener.Start();
-            //Console.WriteLine("Listening..");
-            ////listener.
+            Server server = new Server("http://*:8888/");
+            server.AddRequestHandler(new DiffSyncRequestHandler());
+            server.Start();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
 
-        }
+        }                    
     }
 }
