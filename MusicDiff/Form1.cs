@@ -37,7 +37,7 @@ namespace MusicDiff
             }
             Console.WriteLine("\n{0} directories found.", dirs.Count);
 
-            Server server = new Server("http://*:8888/");
+            Server server = new Server("http://*:8000/");
             server.AddRequestHandler(new DiffSyncRequestHandler());
             server.Start();
         }
